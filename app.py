@@ -4,8 +4,8 @@ from twilio.rest import Client
 app = Flask(__name__)
 
 TWILIO_NUMBER = 'whatsapp:+14155238886'
-ACCOUNT_ID = 'AC24bfce27f12fbb677e5a586795262849'
-AUTH_TOKEN = 'b892316cee0e3611ec2c91f4c41fb343'
+# ACCOUNT_ID = 'AC24bfce27f12fbb677e5a586795262849'
+# AUTH_TOKEN = 'b892316cee0e3611ec2c91f4c41fb343'
 
 client = Client(ACCOUNT_ID, AUTH_TOKEN)
 
