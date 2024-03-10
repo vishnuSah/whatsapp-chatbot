@@ -12,8 +12,7 @@ System Used: <br><br>
 <br>
 <br>
 <b>CHATBOT DEMO:<b> <br><br>
-![image](https://github.com/vishnuSah/whatsapp-chatbot/assets/127580123/eaa36a67-030e-4b51-833a-14b956593e01)
-
+![chatbot](https://github.com/vishnuSah/whatsapp-chatbot/assets/127580123/27ea7c54-eaf9-49e5-8b8c-6f1b3bdf59af)
 
 <br>
 <br>
