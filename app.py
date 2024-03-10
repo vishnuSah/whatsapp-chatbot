@@ -1,11 +1,20 @@
 from flask import Flask, request
 from twilio.rest import Client
+from nifty import get_stock_price
+from configuration import cfg 
+import pdb
+import warnings
+warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
 
+apiconfig = cfg.get_keys()
+ACCOUNT_ID = apiconfig['API_KEYS']['ACCOUNT_ID']
+AUTH_TOKEN = apiconfig['API_KEYS']['AUTH_TOKEN']
+# print(ACCOUNT_ID)
+# print(AUTH_TOKEN)
+
 TWILIO_NUMBER = 'whatsapp:+14155238886'
-# ACCOUNT_ID = 'AC24bfce27f12fbb677e5a586795262849'
-# AUTH_TOKEN = 'b892316cee0e3611ec2c91f4c41fb343'
 
 client = Client(ACCOUNT_ID, AUTH_TOKEN)
 
@@ -24,17 +33,14 @@ def send_msg(msg, recipient):
         to=recipient
     )
 
-    # response = {
-    #     'from': TWILIO_NUMBER,
-    #     'message':msg,
-    #     'To':recipient
-    # }
-    # return response
-
 def process_msg(msg):
     response = ''
-    if msg == 'hi':
-        response = 'Hi welcome to stock market bot!'
+    if msg == 'hi' or msg == 'Hi':
+        response = 'Hi welcome to stock market bot! \nPlease type sym:<stock symbol> for stock price'
+    elif 'sym' in msg:
+        ticker = msg.split(':')[1]
+        stock_price = get_stock_price(ticker)
+        response = stock_price
     else:
         response = 'Please type hi to start conversation...'
 
@@ -43,15 +49,17 @@ def process_msg(msg):
 
 @app.route('/webhook', methods=['POST'])
 def twilioApp():
-    f = request.form
-    msg = f['Body']
-    sender = f['From']
-    response = process_msg(msg)
-    send_msg(response,sender)
+    try:
+        f = request.form
+        msg = f['Body']
+        sender = f['From']
+        response = process_msg(msg)
+        send_msg(response,sender)
+        
+        return 'OK', 200
+    except Exception as e:
+        print(e)
     
-    return 'OK', 200
-    
-
 
 if __name__ == '__main__':
     app.run(debug=True)
